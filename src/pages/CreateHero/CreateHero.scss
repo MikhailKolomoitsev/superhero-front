@@ -1,0 +1,13 @@
+.create-hero_form {
+  padding: 10px;
+
+  .media-button {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+
+    .media-button_input {
+      display: none;
+    }
+  }
+}
