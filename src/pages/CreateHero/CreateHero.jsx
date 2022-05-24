@@ -10,22 +10,41 @@ const CreateHero = () => {
     const onSubmit = (data) => {
         console.log(data)
     }
+
     const photoInput = useRef(null);
+
     const handlePhotoClick = () => {
         photoInput.current.click();
     };
+
     const handleFilesChange = (event) => {
-        console.log('works');
-        if (event.target.files[0].size > 159061428) {
+        const file = event.target.files[0]
+        if (file.size > 159061428) {
             alert('File is too big (more than 150mb)');
             return;
         }
         if (files.length < 5) {
-            setFiles((prev) => [...prev, event.target.files[0]]);
+            setFiles((prev) => [...prev, file]);
         } else {
             alert('Cannot attach more than 5 files');
         }
     };
+
+    const convertBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            };
+
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
+        });
+    };
+
     return (
         <Formik
             initialValues={{
@@ -33,7 +52,7 @@ const CreateHero = () => {
                 realName: '',
                 superpowers: '',
                 catchPhrase: '',
-                files: []
+                file: [],
             }}
             validationSchema={createHeroValidationSchema}
             onSubmit={onSubmit}
@@ -84,22 +103,38 @@ const CreateHero = () => {
                             required
                         />
                     </Box>
+                    {files.length > 0 &&
+                        <ul className='create-hero_photolist'>
+                            {files.map(file =>
+                                <li
+                                    key={file.name}
+                                    className="create-hero_photolist-item">
+                                    <img
+                                        className="create-hero_photolist-item-photo"
+                                        alt="file.name"
+                                        src={URL.createObjectURL(file)}
+                                    />
+                                </li>
+                            )}
+                        </ul>
+                    }
                     <button
                         onClick={handlePhotoClick}
                         type="button"
                         className="media-button"
                     >Attach Photo
                         <input
-                            onChange={(event) => {
-                                console.log('hadnle change')
+                            onChange={async (event) => {
+                                console.log(event.target.files)
                                 handleFilesChange(event);
-                                setFieldValue('files', values.file.concat(event.target.files));
+                                const file = await convertBase64(event.target.files[0])
+                                setFieldValue('file', values.file.concat(file));
                             }}
                             multiple
                             ref={photoInput}
-                            id="files"
-                            name="files"
-                            type="files"
+                            id="file"
+                            name="file"
+                            type="file"
                             accept="image/*"
                             className="media-button_input"
                         />

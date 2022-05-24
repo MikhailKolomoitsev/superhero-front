@@ -10,4 +10,22 @@
       display: none;
     }
   }
+
+  .create-hero_photolist {
+    display: flex;
+    flex-wrap: wrap;
+    list-style-type: none;
+
+    &-item {
+      &:not(:last-child) {
+        margin-right: 10px;
+      }
+
+      &-photo {
+        max-width: 150px;
+        height: 200px;
+        background-image: cover;
+      }
+    }
+  }
 }
