@@ -3,12 +3,14 @@ import { Formik, Form } from 'formik';
 import { TextField, Box, Button } from '@mui/material';
 import { createHeroValidationSchema } from './validations';
 import './CreateHero.scss'
+import axios from 'axios';
 
 const CreateHero = () => {
     const [files, setFiles] = useState([]);
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         console.log(data)
+        axios.post('http://localhost:5000/api/hero', data)
     }
 
     const photoInput = useRef(null);
@@ -52,7 +54,7 @@ const CreateHero = () => {
                 realName: '',
                 superpowers: '',
                 catchPhrase: '',
-                file: [],
+                images: [],
             }}
             validationSchema={createHeroValidationSchema}
             onSubmit={onSubmit}
@@ -125,10 +127,11 @@ const CreateHero = () => {
                     >Attach Photo
                         <input
                             onChange={async (event) => {
-                                console.log(event.target.files)
                                 handleFilesChange(event);
-                                const file = await convertBase64(event.target.files[0])
-                                setFieldValue('file', values.file.concat(file));
+                                if (event.target.files[0]) {
+                                    const file = await convertBase64(event.target.files[0])
+                                    setFieldValue('images', values.images.concat(file.split(',')[1]));
+                                }
                             }}
                             multiple
                             ref={photoInput}
