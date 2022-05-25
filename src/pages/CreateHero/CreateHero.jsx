@@ -2,11 +2,14 @@ import React, { useRef, useState } from 'react'
 import { Formik, Form } from 'formik';
 import { TextField, Box, Button } from '@mui/material';
 import { createHeroValidationSchema } from './validations';
+import cloudUploader from 'utils/cloudUploader'
 import './CreateHero.scss'
 import axios from 'axios';
+import ContentLoader from 'components/ContentLoader';
 
 const CreateHero = () => {
     const [files, setFiles] = useState([]);
+    const [isLoading, setIsLoading] = useState(false)
 
     const onSubmit = async (data) => {
         console.log(data)
@@ -14,15 +17,14 @@ const CreateHero = () => {
     }
 
     const photoInput = useRef(null);
-
     const handlePhotoClick = () => {
         photoInput.current.click();
     };
 
     const handleFilesChange = (event) => {
         const file = event.target.files[0]
-        if (file.size > 159061428) {
-            alert('File is too big (more than 150mb)');
+        if (file.size > 59061428) {
+            alert('File is too big (more than 50mb)');
             return;
         }
         if (files.length < 5) {
@@ -32,20 +34,6 @@ const CreateHero = () => {
         }
     };
 
-    const convertBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-            const fileReader = new FileReader();
-            fileReader.readAsDataURL(file);
-
-            fileReader.onload = () => {
-                resolve(fileReader.result);
-            };
-
-            fileReader.onerror = (error) => {
-                reject(error);
-            };
-        });
-    };
 
     return (
         <Formik
@@ -54,7 +42,7 @@ const CreateHero = () => {
                 realName: '',
                 superpowers: '',
                 catchPhrase: '',
-                images: [],
+                images: []
             }}
             validationSchema={createHeroValidationSchema}
             onSubmit={onSubmit}
@@ -103,45 +91,47 @@ const CreateHero = () => {
                             label="Catch Phrase"
                             errors={errors}
                             required
-                        />
+                            />
                     </Box>
-                    {files.length > 0 &&
-                        <ul className='create-hero_photolist'>
-                            {files.map(file =>
-                                <li
-                                    key={file.name}
-                                    className="create-hero_photolist-item">
-                                    <img
-                                        className="create-hero_photolist-item-photo"
-                                        alt="file.name"
-                                        src={URL.createObjectURL(file)}
-                                    />
-                                </li>
-                            )}
-                        </ul>
-                    }
-                    <button
-                        onClick={handlePhotoClick}
-                        type="button"
-                        className="media-button"
-                    >Attach Photo
-                        <input
-                            onChange={async (event) => {
-                                handleFilesChange(event);
-                                if (event.target.files[0]) {
-                                    const file = await convertBase64(event.target.files[0])
-                                    setFieldValue('images', values.images.concat(file.split(',')[1]));
-                                }
-                            }}
-                            multiple
-                            ref={photoInput}
-                            id="file"
-                            name="file"
-                            type="file"
-                            accept="image/*"
-                            className="media-button_input"
-                        />
-                    </button>
+                    <ContentLoader visible={isLoading}/>
+                        {files.length > 0 &&
+                            <ul className='create-hero_photolist'>
+                                {files.map(file =>
+                                    <li
+                                        key={file.name}
+                                        className="create-hero_photolist-item">
+                                        <img
+                                            className="create-hero_photolist-item-photo"
+                                            alt="file.name"
+                                            src={URL.createObjectURL(file)}
+                                        />
+                                    </li>
+                                )}
+                            </ul>
+                        }
+                        <p>You can add up to 5 hero photos</p>
+                        <button
+                            onClick={handlePhotoClick}
+                            type="button"
+                            className="media-button"
+                        >Attach Photo
+                            <input
+                                onChange={async (event) => {
+                                    setIsLoading(true)
+                                    const file = await cloudUploader(event.target.files[0])
+                                    setFieldValue('images', values.images.concat(file))
+                                    handleFilesChange(event);
+                                    setIsLoading(false)
+                                }}
+                                multiple
+                                ref={photoInput}
+                                id="file"
+                                name="file"
+                                type="file"
+                                accept="image/*"
+                                className="media-button_input"
+                            />
+                        </button>
                     <Button color="secondary" type='submit'>Create Hero</Button>
                 </Form>
             )}
