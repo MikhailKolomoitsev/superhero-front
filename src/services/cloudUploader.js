@@ -1,6 +1,5 @@
 import Axios from "axios";
 
-
 const cloudUploader = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
