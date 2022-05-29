@@ -1,5 +1,5 @@
 .app {
- width: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,6 +8,38 @@
   height: 100%;
 }
 
-ul{
+ul {
   list-style-type: none;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+a,
+ul[class],
+ol[class],
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+  font-family: 'Roboto';
+  margin: 0;
+  color: white;
+}
+
+body {
+  background-color: rgb(57, 2, 78);
+}
+
+a{
+  text-decoration: none;
+}
+
+a:hover, a:focus{
+  color:chartreuse;
 }

@@ -137,7 +137,7 @@ const CreateHero = () => {
                         </button>
                         <Button
                             disabled={!isValid}
-                            color="secondary" type='submit'>Create Hero</Button>
+                            color="primary" type='submit'>Create Hero</Button>
                         <Button
                             onClick={resetForm}
                            color='error' type='reset'>Reset</Button>

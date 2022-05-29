@@ -1,3 +1,19 @@
-.container{
-    
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 25px;
+
+  .heroes-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    max-width: 768px;
+    &-item {
+      min-width: 180px;
+      max-width: 250px;
+      height: 120px;
+      margin: 30px;
+    }
+  }
 }
