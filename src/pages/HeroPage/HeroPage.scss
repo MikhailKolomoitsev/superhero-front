@@ -14,10 +14,15 @@
   }
 
   &-superpowers_list {
-    width: 50%;
+    width: 30%;
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
+
+    &-item{
+      width: 200px;
+      padding: 10px;
+    }
   }
 
   &-images_list {

@@ -4,16 +4,35 @@
   align-items: center;
   padding: 25px;
 
+  .page-desc,
+  .page-heading {
+    margin-bottom: 10px;
+  }
+
+  .create-hero {
+    margin-bottom: 20px;
+  }
+
   .heroes-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
     max-width: 768px;
+
     &-item {
+      display: block;
+      cursor: pointer;
       min-width: 180px;
       max-width: 250px;
       height: 120px;
-      margin: 30px;
+      margin-bottom: 55px;
+      &:not(:nth-child(3n)) {
+        margin-right: 30px;
+      }
     }
+  }
+
+  .MuiButton-contained {
+    margin-top: 15px;
   }
 }

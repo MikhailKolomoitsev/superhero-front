@@ -35,7 +35,7 @@ const HeroPage = () => {
             src={heroData.images[0]} alt={heroData.nickname} />
           <h3>Superpowers list</h3>
           <ul className='hero-superpowers_list'>
-            {heroData.superpowers.split(',').map(i => <li key={i}>{i}</li>)}
+            {heroData.superpowers.split(',').map(i => <li className='hero-superpowers_list-item' key={i}>{i}</li>)}
           </ul>
           <ul className='hero-images_list'>
             {heroData.images.map(img => <li
