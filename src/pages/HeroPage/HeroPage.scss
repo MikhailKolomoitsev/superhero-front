@@ -19,7 +19,7 @@
     justify-content: space-evenly;
     flex-wrap: wrap;
 
-    &-item{
+    &-item {
       width: 200px;
       padding: 10px;
     }
@@ -31,15 +31,21 @@
     justify-content: space-evenly;
     flex-wrap: wrap;
 
-    &-item{
-        display: flex;
-        flex-direction: column;
+    &-item {
+      display: flex;
+      flex-direction: column;
     }
 
     &-item-image {
       width: 200px;
       height: 200px;
       object-fit: cover;
+    }
+  }
+
+  .media-hero-images_list-item_upload-button {
+    &-input {
+      display: none;
     }
   }
 }

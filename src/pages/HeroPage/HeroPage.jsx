@@ -1,6 +1,7 @@
 import { Button } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import cloudUploader from 'services/cloudUploader'
 import api from 'services/api'
 import './HeroPage.scss'
 
@@ -8,6 +9,10 @@ const HeroPage = () => {
   const [heroData, setHeroData] = useState(null)
 
   const { id } = useParams()
+  const photoInput = useRef(null);
+  const handlePhotoClick = () => {
+    photoInput.current.click();
+  };
 
   useEffect(() => {
     const getData = async () => {
@@ -15,7 +20,7 @@ const HeroPage = () => {
       setHeroData(data)
     }
     getData()
-  }, [])
+  }, [id])
 
   useEffect(() => {
     const updateHero = async () => {
@@ -23,7 +28,7 @@ const HeroPage = () => {
     }
     updateHero()
   }, [heroData, id])
-  
+
 
   return (
     <div>
@@ -57,6 +62,31 @@ const HeroPage = () => {
                 type='button'> Delete Picture</Button>
             </li>)}
           </ul>
+          {heroData.images.length < 4 &&
+            <Button
+              onClick={handlePhotoClick}
+              type="button"
+              className="media-hero-images_list-item_upload-button"
+            >Attach up to 5 Photos
+              <input
+                onChange={async (event) => {
+                  const file = await cloudUploader(event.target.files[0])
+                  setHeroData((prevState) => ({
+                    ...prevState,
+                    images: [...prevState.images, file]
+                  }))
+                  console.log(heroData)
+                }}
+                multiple
+                ref={photoInput}
+                id="file"
+                name="file"
+                type="file"
+                accept="image/*"
+                className="media-hero-images_list-item_upload-button-input"
+              />
+            </Button>
+          }
         </div>
       }
 
