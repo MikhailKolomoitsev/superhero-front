@@ -2,7 +2,7 @@ import axios from 'axios';
 
 class ApiService{
     _DEFAULT_OPTIONS = {
-        base_api_url: process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000/api/hero',
+        base_api_url: process.env.REACT_APP_API_BASE_URL || 'https://immense-anchorage-36138.herokuapp.com/api/hero',
     }
 
     getAll() {

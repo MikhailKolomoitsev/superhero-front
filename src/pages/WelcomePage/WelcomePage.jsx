@@ -13,7 +13,7 @@ const WelcomePage = () => {
   const navigate = useNavigate();
   useEffect(() => {
     async function fetchData() {
-      const { data } = await axios.get('http://localhost:5000/api/hero');
+      const { data } = await axios.get('https://immense-anchorage-36138.herokuapp.com/api/hero');
       setHeroes(data)
       setIsLoading(false);
     }
