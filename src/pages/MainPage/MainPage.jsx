@@ -6,6 +6,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import HeroPage from '../HeroPage';
 
 const MainPage = () => {
+
   return (
     <div>
       <Routes>
