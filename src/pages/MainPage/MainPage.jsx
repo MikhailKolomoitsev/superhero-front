@@ -9,12 +9,12 @@ const MainPage = () => {
   return (
     <div>
       <Routes>
-        <Route exact path="/main" element={<WelcomePage />} />
+        <Route exact path="/" element={<WelcomePage />} />
         <Route exact path="/create" element={<CreateHero />} />
         <Route exact path="/created" element={<Created />} />
         <Route exact path="/hero/:id" element={< HeroPage />} />
         <Route exact path="/not-found" element={<div />} />
-        <Route path="/*" element={<Navigate to="/main" />} />
+        <Route path="/*" element={<Navigate to="/" />} />
       </Routes>
     </div>
   )
